@@ -17,11 +17,11 @@ const COLORS = {
 /*----- app's state (variables) -----*/
 let board;  // array of column arrays / elements will hold 1/-1 for the players or 0 -> empty
 let turn;   // 1 or -1   
-let winner = true; // null -> game in progress; 1/-1 -> a player has won; 'T' -> Tie
+let winner; // null -> game in progress; 1/-1 -> a player has won; 'T' -> Tie
 
 /*----- cached element references -----*/
 const btnEl = document.querySelector('button');
-
+const msgEl = document.querySelector('h1');
 
 /*----- event listeners -----*/
 btnEl.addEventListener('click', init);
@@ -33,13 +33,13 @@ function init() {
   // Visualize mapping to DOM by rotating
   // 90 degrees counter-clockwise
   board = [
-    [1, 0, 0, 0, 0, 0], // column 0
+    [0, 0, 0, 0, 0, 0], // column 0
     [0, 0, 0, 0, 0, 0], // column 1
     [0, 0, 0, 0, 0, 0], // column 2
-    [0, 0, 0, 1, 0, 0], // column 3
+    [0, 0, 0, 0, 0, 0], // column 3
     [0, 0, 0, 0, 0, 0], // column 4
     [0, 0, 0, 0, 0, 0], // column 5
-    [-1, 0, 0, 0, 0, 0], // column 6
+    [0, 0, 0, 0, 0, 0], // column 6
   ];
   turn = 1;
   winner = null;
@@ -53,6 +53,7 @@ function handleMove(event) {
 function render() {
   btnEl.style.visibility = winner ? 'visible' : 'hidden';
   renderBoard();
+  renderMessage();
 }
 
 function renderBoard() {
@@ -63,5 +64,14 @@ function renderBoard() {
       divEl.style.backgroundColor = COLORS[playerVal];
     });
   });
+}
 
+function renderMessage() {
+  if (winner === 'T') {
+    msgEl.innerHTML = "It's a Tie!!!";
+  } else if (winner) {
+    msgEl.innerHTML = `${COLORS[winner].toUpperCase()} Wins!`;
+  } else {
+    msgEl.innerHTML = `${COLORS[turn].toUpperCase()}'s Turn`;
+  }
 }
