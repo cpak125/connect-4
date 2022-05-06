@@ -8,8 +8,11 @@ State variables:
 
 
 /*----- constants -----*/
-
-
+const COLORS = {
+  '0': 'white',
+  '1': 'red',
+  '-1': 'yellow'
+};
 
 /*----- app's state (variables) -----*/
 let board;  // array of column arrays / elements will hold 1/-1 for the players or 0 -> empty
@@ -27,26 +30,38 @@ document.getElementById('markers').addEventListener('click', handleMove);
 init();
 // Initialize all state, thenc all render()
 function init() {
-    // Visualize mapping to DOM by rotating
-    // 90 degrees counter-clockwise
-    board = [
-        [0, 0, 0, 0, 0, 0], // column 0
-        [0, 0, 0, 0, 0, 0], // column 1
-        [0, 0, 0, 0, 0, 0], // column 2
-        [0, 0, 0, 0, 0, 0], // column 3
-        [0, 0, 0, 0, 0, 0], // column 4
-        [0, 0, 0, 0, 0, 0], // column 5
-        [0, 0, 0, 0, 0, 0], // column 6
-    ];
-    turn = 1;
-    winner = null;
-    render();
+  // Visualize mapping to DOM by rotating
+  // 90 degrees counter-clockwise
+  board = [
+    [1, 0, 0, 0, 0, 0], // column 0
+    [0, 0, 0, 0, 0, 0], // column 1
+    [0, 0, 0, 0, 0, 0], // column 2
+    [0, 0, 0, 1, 0, 0], // column 3
+    [0, 0, 0, 0, 0, 0], // column 4
+    [0, 0, 0, 0, 0, 0], // column 5
+    [-1, 0, 0, 0, 0, 0], // column 6
+  ];
+  turn = 1;
+  winner = null;
+  render();
 }
 
 function handleMove(event) {
-    console.log(event.target);
+  console.log(event.target);
 }
 
 function render() {
-    btnEl.style.visibility = winner ? 'visible' : 'hidden';
+  btnEl.style.visibility = winner ? 'visible' : 'hidden';
+  renderBoard();
+}
+
+function renderBoard() {
+  board.forEach(function(colArr, colIdx) {
+    colArr.forEach(function(playerVal, rowIdx) {
+      const divId = `c${colIdx}r${rowIdx}`;
+      const divEl = document.getElementById(divId);
+      divEl.style.backgroundColor = COLORS[playerVal];
+    });
+  });
+
 }
