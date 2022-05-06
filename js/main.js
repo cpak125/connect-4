@@ -1,17 +1,8 @@
-/*
-State variables:
-1. board (tracking the state of the board)
-2. turn (who's turn is it?)
-3. winner (is there a wiiner, and if so, who?)
-*/
-
-
-
 /*----- constants -----*/
 const COLORS = {
   '0': 'white',
   '1': 'red',
-  '-1': 'yellow'
+  '-1': 'gold'
 };
 
 /*----- app's state (variables) -----*/
@@ -22,6 +13,7 @@ let winner; // null -> game in progress; 1/-1 -> a player has won; 'T' -> Tie
 /*----- cached element references -----*/
 const btnEl = document.querySelector('button');
 const msgEl = document.querySelector('h1');
+const markerEls = [...document.querySelectorAll('#markers > div')];
 
 /*----- event listeners -----*/
 btnEl.addEventListener('click', init);
@@ -46,8 +38,23 @@ function init() {
   render();
 }
 
+// Update all impacted state, then call render()
 function handleMove(event) {
-  console.log(event.target);
+  // Determine the index of the col. clicked
+  const colIdx = markerEls.indexOf(event.target);
+  // User did not click on a marker
+  if (colIdx === -1 || winner) return;
+  // Grab the column array
+  const colArr = board[colIdx];
+  // Find the first 0 in the colArr
+  const rowIdx = colArr.indexOf(0);
+  // Update the board
+  colArr[rowIdx] = turn;
+  // Update the turn
+  turn *= -1;
+  // Update the winner
+
+  render();
 }
 
 function render() {
@@ -70,8 +77,8 @@ function renderMessage() {
   if (winner === 'T') {
     msgEl.innerHTML = "It's a Tie!!!";
   } else if (winner) {
-    msgEl.innerHTML = `${COLORS[winner].toUpperCase()} Wins!`;
+    msgEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[winner].toUpperCase()}</span> Wins!`;
   } else {
-    msgEl.innerHTML = `${COLORS[turn].toUpperCase()}'s Turn`;
+    msgEl.innerHTML = `<span style="color:${COLORS[turn]}">${COLORS[turn].toUpperCase()}</span>'s Turn`;
   }
 }
