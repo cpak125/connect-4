@@ -64,6 +64,13 @@ function render() {
   renderMarkers();
 }
 
+function renderMarkers() {
+  markerEls.forEach(function(el, colIdx) {
+    const showMarker = board[colIdx].includes(0);
+    el.style.visibility = showMarker ? 'visible' : 'hidden';
+  });
+}
+
 function renderBoard() {
   board.forEach(function(colArr, colIdx) {
     colArr.forEach(function(playerVal, rowIdx) {
