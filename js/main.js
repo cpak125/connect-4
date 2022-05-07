@@ -53,7 +53,7 @@ function handleMove(event) {
   // Update the turn
   turn *= -1;
   // Update the winner
-
+  winner = getWinner(colIdx, rowIdx);
   render();
 }
 
@@ -61,6 +61,7 @@ function render() {
   btnEl.style.visibility = winner ? 'visible' : 'hidden';
   renderBoard();
   renderMessage();
+  renderMarkers();
 }
 
 function renderBoard() {
@@ -81,4 +82,25 @@ function renderMessage() {
   } else {
     msgEl.innerHTML = `<span style="color:${COLORS[turn]}">${COLORS[turn].toUpperCase()}</span>'s Turn`;
   }
+}
+
+function getWinner(colIdx, rowIdx) {
+  const winner = checkVertWin(colIdx, rowIdx) || checkHorzWin(colIdx, rowIdx);
+  // TODO: Check for tie
+  return winner;
+}
+
+function checkVertWin(colIdx, rowIdx) {
+  const currPlayer = board[colIdx][rowIdx]; // 1 or -1
+  let count = 1;
+  rowIdx--;
+  while (rowIdx >= 0 && board[colIdx][rowIdx] === currPlayer) {
+    count++;
+    rowIdx--;
+  }
+  return count === 4 ? currPlayer : null;
+}
+
+function checkHorzWin(colIdx, rowIdx) {
+
 }
