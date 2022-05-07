@@ -18,6 +18,7 @@ const markerEls = [...document.querySelectorAll('#markers > div')];
 /*----- event listeners -----*/
 btnEl.addEventListener('click', init);
 document.getElementById('markers').addEventListener('click', handleMove);
+
 /*----- functions -----*/
 init();
 // Initialize all state, thenc all render()
