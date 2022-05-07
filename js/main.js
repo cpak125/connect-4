@@ -109,5 +109,19 @@ function checkVertWin(colIdx, rowIdx) {
 }
 
 function checkHorzWin(colIdx, rowIdx) {
-
+  const currPlayer = board[colIdx][rowIdx]; // 1 or -1
+  let count = 1;
+  // count to the left
+  let col = colIdx - 1;
+  while (col >= 0 && board[col][rowIdx] === currPlayer) {
+    count++;
+    col--;
+  }
+  // move to the right
+  col = colIdx + 1;
+  while (col <= 0 && board.length === currPlayer) {
+    count++;
+    col++;
+  }
+  return count >= 4 ? currPlayer : null;
 }
